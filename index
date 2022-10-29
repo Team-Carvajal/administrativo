@@ -1,1 +1,30 @@
+Pasos para trabajar en el proyecto desde tu computador
 
+1. Clona el repositorio, copiando la ruta desde el github; desde el boton llamado code
+2. Abre github desktop, inicia sesión en tu cuenta llendo a file, luego a options y en el primer sign in
+3. Una vez hayas iniciado sesión, ve a desktop otra vez, a file y en clone repository, pega la url en la parte que dice url
+4. Antes de clonar el repositorio, undele en choose y busca la carpeta de htdocs (C:xampp\htdocs) y la dejas seleccionada. esto para que
+que el repositorio pueda ejecutarse normal... ya que laravel es php
+5. Lo clonas y esperas, luego ahi mismo le undes en fetch origin... en la parte de arriba
+6. Una vez te carguen todos los archivos, abres el cmd y escribe lo siguiente para ir a la carpeta del proyecto:
+  cd ..\..\xampp\htdocs\administrativo
+7. escribe esto: composer install     (esto es para que el proyecto se instale y funcione bien)
+8. ahora ve a github desktop y undele en abrir en visual studio code y buscas el archivo .env o .env.example (si está como el segundo le cambias el nombre, quitandole .example)
+9. cuando abras el archvio .env en el vs code, busca lo que diga: DB_DATABASE=laravel y cambia laravel por ping, (DB_DATABASE=ping)
+10. ahora abre phpmyadmin de mysql, e importemos la base de datos. undele en importar (sale en la parte de arriba) y donde dice escoger archivos, undele y busca la carpeta en htdocs llamada administrativo
+  busca el archivo ping.sql y undele en import... está abajo en la página.
+11. LIsto la base de datos
+12. ahora en el cmd que aun tenemos abierto escribimos: php artisan key:generate (esto es una llave de seguridad que github pide), esto laravel lo hace solo
+13. en el mismo cmd escribimos: php artisan migrate; esto para crear unas tablas de seguridad que hace laravel solo
+14. en el cmd escribimos (cd administrativo) ... esto pq el proyecto está en una carpeta dentro de otra que se llama igual
+15. Ahora para funcionar el proyecto, escribes php artisan serve
+ahi te salen unos numeros, algo así: [http://127.0.0.1:8000], copias y lo pegas en google, pero sin los [], 
+osea así http://127.0.0.1:8000
+
+
+Para poder trabajar no puedes cerrar el cmd, pq se cierra el servidor, para cerrarlo solo hace ctrl+c
+Pasos para trabajar abrir el servidor una vez ya lo hayas instalado:
+1. abres el cmd y pones cd ..\..\xampp\htdocs\administrativo\administrativo
+2. en cmd otra vez: php artisan serve
+3. copias los numeros y pegas en el explorador, como en google
+4. inicia mysql tambien para que use la base de datos y puedas probar
