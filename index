@@ -8,7 +8,8 @@ que el repositorio pueda ejecutarse normal... ya que laravel es php
 5. Lo clonas y esperas, luego ahi mismo le undes en fetch origin... en la parte de arriba
 6. Una vez te carguen todos los archivos, abres el cmd y escribe lo siguiente para ir a la carpeta del proyecto:
   cd ..\..\xampp\htdocs\administrativo
-7. escribe esto: composer install     (esto es para que el proyecto se instale y funcione bien)
+7. escribe esto: composer install     (esto es para que el proyecto se instale y funcione bien),
+luego: composer u (para actualizar a la ultima versión)
 8. ahora ve a github desktop y undele en abrir en visual studio code y buscas el archivo .env o .env.example (si está como el segundo le cambias el nombre, quitandole .example)
 9. cuando abras el archvio .env en el vs code, busca lo que diga: DB_DATABASE=laravel y cambia laravel por ping, (DB_DATABASE=ping)
 10. ahora abre phpmyadmin de mysql, e importemos la base de datos. undele en importar (sale en la parte de arriba) y donde dice escoger archivos, undele y busca la carpeta en htdocs llamada administrativo
