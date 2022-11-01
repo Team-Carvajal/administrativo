@@ -76,5 +76,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('customers', function () {
 		return view('pages.customers');
 	})->name('customers');
+	Route::get('products', function () {
+		return view('pages.products');
+	})->name('products');
 
 });
