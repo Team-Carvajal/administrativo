@@ -74,3 +74,7 @@ Route::group(['middleware' => 'auth'], function () {
 		return view('pages.laravel-examples.user-profile');
 	})->name('user-profile');
 });
+
+Route::get('productos', function () {
+    return view('pages.products');
+});
