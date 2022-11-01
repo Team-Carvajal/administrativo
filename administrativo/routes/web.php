@@ -46,9 +46,9 @@ Route::post('sign-out', [SessionsController::class, 'destroy'])->middleware('aut
 Route::get('profile', [ProfileController::class, 'create'])->middleware('auth')->name('profile');
 Route::post('user-profile', [ProfileController::class, 'update'])->middleware('auth');
 Route::group(['middleware' => 'auth'], function () {
-	Route::get('billing', function () {
-		return view('pages.billing');
-	})->name('billing');
+	Route::get('ventas', function () {
+		return view('pages.ventas');
+	})->name('ventas');
 	Route::get('tables', function () {
 		return view('pages.tables');
 	})->name('tables');
@@ -73,4 +73,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('user-profile', function () {
 		return view('pages.laravel-examples.user-profile');
 	})->name('user-profile');
+	Route::get('customers', function () {
+		return view('pages.customers');
+	})->name('customers');
+
 });
