@@ -295,6 +295,8 @@ CREATE TABLE `products` (
   `nameProduct` varchar(50) NOT NULL,
   `price` int(11) NOT NULL,
   `descriptionProduct` varchar(200) DEFAULT NULL,
+  `image` varchar(250) DEFAULT NULL,
+
   `garanty` int(11) DEFAULT NULL,
   `QuantityAvailable` int(11) DEFAULT NULL,
   `ShirtType_idShirtType` int(11) NOT NULL,
