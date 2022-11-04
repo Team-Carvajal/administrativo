@@ -72,7 +72,7 @@ INSERT INTO `billStates` (`idBillStates`, `state`) VALUES
 -- Estructura de tabla para la tabla `category`
 --
 
-CREATE TABLE `categorys` (
+CREATE TABLE `categories` (
   `idCategory` int(11) NOT NULL,
   `categoryName` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -81,7 +81,7 @@ CREATE TABLE `categorys` (
 -- Volcado de datos para la tabla `category`
 --
 
-INSERT INTO `categorys` (`idCategory`, `categoryName`) VALUES
+INSERT INTO `categories` (`idCategory`, `categoryName`) VALUES
 (1, 'Hombres'),
 (2, 'Mujeres'),
 (3, 'Niños'),
@@ -90,10 +90,10 @@ INSERT INTO `categorys` (`idCategory`, `categoryName`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `deliverys`
+-- Estructura de tabla para la tabla `deliveries`
 --
 
-CREATE TABLE `deliverys` (
+CREATE TABLE `deliveries` (
   `idDelivery` int(11) NOT NULL,
   `direction` varchar(100) NOT NULL,
   `bill_idBill` int(11) NOT NULL
@@ -469,7 +469,7 @@ INSERT INTO `UICode` (`idUICode`, `file`, `rol_idRol`) VALUES
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `lastName` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lastName` varchar(50) COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `phone` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -510,13 +510,13 @@ ALTER TABLE `billStates`
 --
 -- Indices de la tabla `category`
 --
-ALTER TABLE `categorys`
+ALTER TABLE `categories`
   ADD PRIMARY KEY (`idCategory`);
 
 --
 -- Indices de la tabla `delivery`
 --
-ALTER TABLE `deliverys`
+ALTER TABLE `deliveries`
   ADD PRIMARY KEY (`idDelivery`),
   ADD KEY `bill_idBill` (`bill_idBill`);
 
@@ -672,13 +672,13 @@ ALTER TABLE `billStates`
 --
 -- AUTO_INCREMENT de la tabla `category`
 --
-ALTER TABLE `categorys`
+ALTER TABLE `categories`
   MODIFY `idCategory` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `delivery`
 --
-ALTER TABLE `deliverys`
+ALTER TABLE `deliveries`
   MODIFY `idDelivery` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -774,7 +774,7 @@ ALTER TABLE `bills`
 --
 -- Filtros para la tabla `delivery`
 --
-ALTER TABLE `deliverys`
+ALTER TABLE `deliveries`
   ADD CONSTRAINT `bill_delivery` FOREIGN KEY (`bill_idBill`) REFERENCES `bills` (`idBill`);
 
 --
@@ -807,7 +807,7 @@ ALTER TABLE `products`
   ADD CONSTRAINT `shirtSize_products` FOREIGN KEY (`shirtSize_idShirtSize`) REFERENCES `shirtSize` (`idShirtSize`),
   ADD CONSTRAINT `shirtType_products` FOREIGN KEY (`shirtType_idShirtType`) REFERENCES `shirtType` (`idShirtType`),
   ADD CONSTRAINT `typePrint_products` FOREIGN KEY (`typePrint_idTypePrint`) REFERENCES `typePrint` (`idTypePrint`),
-  ADD CONSTRAINT `category_products` FOREIGN KEY (`category_idCategory`) REFERENCES `categorys` (`idCategory`),
+  ADD CONSTRAINT `category_products` FOREIGN KEY (`category_idCategory`) REFERENCES `categories` (`idCategory`),
   ADD CONSTRAINT `descountSettings_products` FOREIGN KEY (`descountSettings_id`) REFERENCES `descountSettings` (`idDescountSettings`);
 
 --
