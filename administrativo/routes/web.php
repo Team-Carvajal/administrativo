@@ -73,7 +73,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('user-profile', function () {
 		return view('pages.laravel-examples.user-profile');
 	})->name('user-profile');
-	Route::get('customers', function () {
-		return view('pages.customers');
-	})->name('customers');
+	Route::get('usuarios', function () {
+		return view('pages.usuarios');
+	})->name('usuarios');
 });
