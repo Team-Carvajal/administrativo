@@ -32,7 +32,7 @@
                                         <form method="POST" action="{{ route('register') }}">
                                             @csrf
                                             <div class="input-group input-group-outline mt-3">
-                                                <label class="form-label">Name</label>
+                                                <label class="form-label">Nombre</label>
                                                 <input type="text" class="form-control" name="name"
                                                     value="{{ old('name') }}">
                                             </div>
@@ -40,9 +40,19 @@
                                             <p class='text-danger inputerror'>{{ $message }} </p>
                                             @enderror
                                             <div class="input-group input-group-outline mt-3">
-                                                <label class="form-label">Email</label>
+                                                <label class="form-label">Apellido</label>
+                                                <input type="text" class="form-control" name="lastName"
+                                                    value="{{ old('lastName') }}">
+                                            </div>
+                                            <div class="input-group input-group-outline mt-3">
+                                                <label class="form-label">Correo</label>
                                                 <input type="email" class="form-control" name="email"
                                                     value="{{ old('email') }}">
+                                            </div>
+                                            <div class="input-group input-group-outline mt-3">
+                                                <label class="form-label">Celular</label>
+                                                <input type="text" class="form-control" name="phone"
+                                                    value="{{ old('celular') }}">
                                             </div>
                                             @error('email')
                                             <p class='text-danger inputerror'>{{ $message }} </p>
