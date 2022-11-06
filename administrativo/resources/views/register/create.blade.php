@@ -25,8 +25,8 @@
                                 class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column ms-auto me-auto ms-lg-auto me-lg-5">
                                 <div class="card card-plain">
                                     <div class="card-header">
-                                        <h4 class="font-weight-bolder">Sign Up</h4>
-                                        <p class="mb-0">Enter your name, email and password to register</p>
+                                        <h4 class="font-weight-bolder">Registro</h4>
+                                        <p class="mb-0">Ingresa tus datos para registrarte</p>
                                     </div>
                                     <div class="card-body">
                                         <form method="POST" action="{{ route('register') }}">
@@ -68,22 +68,22 @@
                                                 <input class="form-check-input" type="checkbox" value=""
                                                     id="flexCheckDefault" checked>
                                                 <label class="form-check-label" for="flexCheckDefault">
-                                                    I agree the <a href="javascript:;"
-                                                        class="text-dark font-weight-bolder">Terms and Conditions</a>
+                                                    Estoy de acuerdo con los <a href="javascript:;"
+                                                        class="text-dark font-weight-bolder">Terminos y condiciones</a>
                                                 </label>
                                             </div>
                                             <div class="text-center">
                                                 <button type="submit"
-                                                    class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">Sign
-                                                    Up</button>
+                                                    class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">Registrarse
+                                                    </button>
                                             </div>
                                         </form>
                                     </div>
                                     <div class="card-footer text-center pt-0 px-lg-2 px-1">
                                         <p class="mb-2 text-sm mx-auto">
-                                            Already have an account?
+                                            Ya tienes una cuenta?
                                             <a href="{{ route('login') }}"
-                                                class="text-primary text-gradient font-weight-bold">Sign in</a>
+                                                class="text-primary text-gradient font-weight-bold">Ingresa</a>
                                         </p>
                                     </div>
                                 </div>
