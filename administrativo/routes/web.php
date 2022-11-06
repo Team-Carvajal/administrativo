@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\usersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,7 +74,5 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('user-profile', function () {
 		return view('pages.laravel-examples.user-profile');
 	})->name('user-profile');
-	Route::get('usuarios', function () {
-		return view('pages.usuarios');
-	})->name('usuarios');
+	Route::get('usuarios', [usersController::class,'index'])->name('usuarios');
 });

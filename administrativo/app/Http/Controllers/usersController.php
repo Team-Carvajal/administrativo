@@ -14,8 +14,8 @@ class usersController extends Controller
      */
     public function index()
     {
-        $users=User::all();
-        return view('usuarios', compact('usuarios'));
+        $users=User::select('*')->join('roles','users.rol_id', '=', 'roles.idRol')->get();
+        return view('pages.usuarios', compact('users'));
     }
 
     /**

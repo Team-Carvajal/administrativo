@@ -51,14 +51,14 @@
                                             </div>
                                             <div class="input-group input-group-outline mt-3">
                                                 <label class="form-label">Celular</label>
-                                                <input type="text" class="form-control" name="phone"
+                                                <input type="tel" class="form-control" name="phone"
                                                     value="{{ old('celular') }}">
                                             </div>
                                             @error('email')
                                             <p class='text-danger inputerror'>{{ $message }} </p>
                                             @enderror
                                             <div class="input-group input-group-outline mt-3">
-                                                <label class="form-label">Password</label>
+                                                <label class="form-label">Contraseña</label>
                                                 <input type="password" class="form-control" name="password">
                                             </div>
                                             @error('password')
