@@ -71,8 +71,9 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('user-management', function () {
 		return view('pages.laravel-examples.user-management');
 	})->name('user-management');
-	Route::get('user-profile', function () {
-		return view('pages.laravel-examples.user-profile');
-	})->name('user-profile');
+	// Route::get('user-profile', function () {
+	// 	return view('pages.laravel-examples.user-profile');
+	// })->name('user-profile');
 	Route::get('usuarios', [usersController::class,'index'])->name('usuarios');
+	Route::get('miperfil', [usersController::class,'show'])->name('miperfil');
 });

@@ -45,9 +45,10 @@ class usersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+        $user=User::find(1)->toArray();
+        return view('pages.profile', compact('user'));
     }
 
     /**
