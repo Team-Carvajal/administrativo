@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ProductsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -73,8 +73,12 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('user-profile', function () {
 		return view('pages.laravel-examples.user-profile');
 	})->name('user-profile');
-});
-
-Route::get('productos', function () {
-    return view('pages.products');
+	Route::get('productos', [ProductsController::class, 'index'])->name('productos');
+	Route::get('nuevo-producto', [ProductsController::class, 'create'])->name('nuevo-producto');
+	Route::post('guardar-producto', [ProductsController::class, 'store'])->name('guardar-producto');
+	Route::get('editar-producto/{idproduct}', [ProductsController::class, 'edit'])->name('editar-producto/{idproduct}');
+	Route::post('actualizar-producto/{idproduct}', [ProductsController::class, 'update'])->name('actualizar-producto/{idproduct}');
+	Route::get('ver-producto/{idproduct}', [ProductsController::class, 'show'])->name('ver-producto/{idproduct}');
+	Route::get('ocultar-producto/{idproduct}', [ProductsController::class, 'hide'])->name('ocultar-producto/{idproduct}');
+	Route::get('papelera-productos/{QuantityAvailable}', [ProductsController::class, 'hide'])->name('papelera-productos/{QuantityAvailable}');
 });
