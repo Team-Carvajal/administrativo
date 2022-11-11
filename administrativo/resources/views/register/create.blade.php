@@ -40,6 +40,14 @@
                                             <p class='text-danger inputerror'>{{ $message }} </p>
                                             @enderror
                                             <div class="input-group input-group-outline mt-3">
+                                                <label class="form-label">Lastname</label>
+                                                <input type="text" class="form-control" name="lastname"
+                                                    value="{{ old('lastname') }}">
+                                            </div>
+                                            @error('lastname')
+                                            <p class='text-danger inputerror'>{{ $message }} </p>
+                                            @enderror
+                                            <div class="input-group input-group-outline mt-3">
                                                 <label class="form-label">Email</label>
                                                 <input type="email" class="form-control" name="email"
                                                     value="{{ old('email') }}">

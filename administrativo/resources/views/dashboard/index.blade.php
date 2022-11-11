@@ -14,8 +14,8 @@
                                 <i class="material-icons opacity-10">weekend</i>
                             </div>
                             <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize">Today's Money</p>
-                                <h4 class="mb-0">$53k</h4>
+                                <p class="text-sm mb-0 text-capitalize">Ventas del dia</p>
+                                <h4 class="mb-0">$</h4>
                             </div>
                         </div>
                         <hr class="dark horizontal my-0">

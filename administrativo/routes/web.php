@@ -48,7 +48,7 @@ Route::post('user-profile', [ProfileController::class, 'update'])->middleware('a
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('ventas', function () {
 		return view('pages.ventas');
-	})->name('ventas');
+	})->name('billing');
 	Route::get('tables', function () {
 		return view('pages.tables');
 	})->name('tables');

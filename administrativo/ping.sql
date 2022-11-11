@@ -415,16 +415,8 @@ CREATE TABLE `uicode` (
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `lastName` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `birthDate` date DEFAULT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email_verified_at` timestamp NULL DEFAULT NULL,
-  `phone` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `roles_id` int(11) NOT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
