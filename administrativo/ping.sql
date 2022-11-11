@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-11-2022 a las 20:05:12
+-- Tiempo de generación: 11-11-2022 a las 02:16:48
 -- Versión del servidor: 10.4.25-MariaDB
 -- Versión de PHP: 8.1.10
 
@@ -11,10 +11,9 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-DROP DATABASE IF EXISTS `ping`;
+DROP TABLE IF EXISTS `ping`;
 CREATE DATABASE `ping`;
 USE `ping`;
-
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -22,70 +21,63 @@ USE `ping`;
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `ping2`
+-- Base de datos: `ping`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `bill`
+-- Estructura de tabla para la tabla `aboutus`
+--
+
+CREATE TABLE `aboutus` (
+  `id` int(11) NOT NULL,
+  `text` varchar(500) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `bills`
 --
 
 CREATE TABLE `bills` (
-  `idBill` int(11) NOT NULL,
-  `expeditionDateBill` date NOT NULL DEFAULT current_timestamp(),
+  `id` int(11) NOT NULL,
   `billStates_id` int(5) NOT NULL,
-  `paymentMethod_idPaymentMethod` int(11) NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL
+  `paymentMethod_id` int(11) NOT NULL,
+  `subTotal` int(11) DEFAULT NULL,
+  `users_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `bill`
---
-
-INSERT INTO `bills` (`idBill`, `expeditiondatebill`, `billStates_id`, `paymentMethod_idPaymentMethod`, `user_id`) VALUES
-(1, '2022-11-02', 1, 1, 2);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `billStates`
+-- Estructura de tabla para la tabla `billstates`
 --
 
-CREATE TABLE `billStates` (
-  `idBillStates` int(5) NOT NULL,
-  `state` varchar(10) NOT NULL
+CREATE TABLE `billstates` (
+  `id` int(5) NOT NULL,
+  `state` varchar(10) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `billStates`
---
-
-INSERT INTO `billStates` (`idBillStates`, `state`) VALUES
-(1, 'Por Enviar'),
-(2, 'Completado'),
-(3, 'Por Entreg');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `category`
+-- Estructura de tabla para la tabla `categories`
 --
 
 CREATE TABLE `categories` (
-  `idCategory` int(11) NOT NULL,
-  `categoryName` varchar(45) NOT NULL
+  `id` int(11) NOT NULL,
+  `name` varchar(45) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `category`
---
-
-INSERT INTO `categories` (`idCategory`, `categoryName`) VALUES
-(1, 'Hombres'),
-(2, 'Mujeres'),
-(3, 'Niños'),
-(4, 'Jovenes');
 
 -- --------------------------------------------------------
 
@@ -94,9 +86,11 @@ INSERT INTO `categories` (`idCategory`, `categoryName`) VALUES
 --
 
 CREATE TABLE `deliveries` (
-  `idDelivery` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `direction` varchar(100) NOT NULL,
-  `bill_idBill` int(11) NOT NULL
+  `bills_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -105,39 +99,25 @@ CREATE TABLE `deliveries` (
 -- Estructura de tabla para la tabla `descountsettings`
 --
 
-CREATE TABLE `descountSettings` (
-  `idDescountSettings` int(11) NOT NULL,
+CREATE TABLE `descountsettings` (
+  `id` int(11) NOT NULL,
   `descriptionDescount` varchar(45) NOT NULL,
   `descount` float NOT NULL,
-  `applyDate` date NOT NULL
+  `applyDate` date NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `descountsettings`
---
-
-INSERT INTO `descountSettings` (`idDescountSettings`, `descriptionDescount`, `descount`, `applyDate`) VALUES
-(1, 'sin descuento', 0, '0000-00-00'),
-(2, 'descuento por frecuencia', 10, '2022-11-20');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `dimensionPrint`
+-- Estructura de tabla para la tabla `dimensionprint`
 --
 
-CREATE TABLE `dimensionPrint` (
-  `idDimensionPrint` int(11) NOT NULL,
+CREATE TABLE `dimensionprint` (
+  `id` int(11) NOT NULL,
   `dimension` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `dimensionPrint`
---
-
-INSERT INTO `dimensionPrint` (`idDimensionPrint`, `dimension`) VALUES
-(1, 'Grande'),
-(2, 'Mediano');
 
 -- --------------------------------------------------------
 
@@ -162,20 +142,15 @@ CREATE TABLE `failed_jobs` (
 --
 
 CREATE TABLE `managementpqrs` (
-  `idmanagementPqrs` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `description` varchar(200) NOT NULL,
   `fechaPqrs` date NOT NULL,
   `state` varchar(1) NOT NULL,
-  `typePqrs_idTypePqrs` int(11) NOT NULL,
-  `user_iduser` bigint(11) UNSIGNED NOT NULL
+  `typesPqrs_id` int(11) NOT NULL,
+  `users_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `managementpqrs`
---
-
-INSERT INTO `managementpqrs` (`idmanagementPqrs`, `description`, `fechaPqrs`, `state`, `typePqrs_idTypePqrs`, `user_iduser`) VALUES
-(1, '¿cómo funciona la página web?', '2022-11-02', '1', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -189,38 +164,21 @@ CREATE TABLE `migrations` (
   `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Volcado de datos para la tabla `migrations`
---
-
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(1, '2014_10_12_000000_create_users_table', 1),
-(2, '2014_10_12_100000_create_password_resets_table', 1),
-(3, '2019_08_19_000000_create_failed_jobs_table', 1),
-(4, '2019_12_14_000001_create_personal_access_tokens_table', 1);
-
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `ordersBase`
+-- Estructura de tabla para la tabla `ordersbase`
 --
 
-CREATE TABLE `ordersBase` (
-  `idOrder` int(11) NOT NULL,
+CREATE TABLE `ordersbase` (
+  `id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
-  `bill_idBill` int(11) NOT NULL,
-  `dimensionPrint_idDimensionPrint` int(11) NOT NULL,
-  `product_idProduct` int(11) NOT NULL
+  `bills_id` int(11) NOT NULL,
+  `dimensionPrint_id` int(11) NOT NULL,
+  `products_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `ordersBase`
---
-
-INSERT INTO `ordersBase` (`idOrder`, `quantity`, `bill_idBill`, `dimensionPrint_idDimensionPrint`, `product_idProduct`) VALUES
-(1, 2, 1, 1, 1),
-(2, 10, 1, 2, 1),
-(3, 3, 1, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -237,20 +195,15 @@ CREATE TABLE `password_resets` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `paymentMethods`
+-- Estructura de tabla para la tabla `paymentmethods`
 --
 
-CREATE TABLE `paymentMethods` (
-  `idPaymentMethod` int(11) NOT NULL,
-  `method` varchar(60) DEFAULT NULL
+CREATE TABLE `paymentmethods` (
+  `id` int(11) NOT NULL,
+  `method` varchar(60) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `paymentMethods`
---
-
-INSERT INTO `paymentMethods` (`idPaymentMethod`, `method`) VALUES
-(1, 'payPal');
 
 -- --------------------------------------------------------
 
@@ -260,7 +213,7 @@ INSERT INTO `paymentMethods` (`idPaymentMethod`, `method`) VALUES
 
 CREATE TABLE `personal_access_tokens` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_Types` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `tokenable_id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -274,14 +227,16 @@ CREATE TABLE `personal_access_tokens` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `productCalification`
+-- Estructura de tabla para la tabla `productcalification`
 --
 
-CREATE TABLE `productCalification` (
-  `idProductCalification` int(11) NOT NULL,
+CREATE TABLE `productcalification` (
+  `id` int(11) NOT NULL,
   `calification` int(11) DEFAULT NULL,
-  `user_iduser` bigint(20) UNSIGNED DEFAULT NULL,
-  `product_idproduct` int(11) DEFAULT NULL
+  `users_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `products_id` int(11) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -291,174 +246,165 @@ CREATE TABLE `productCalification` (
 --
 
 CREATE TABLE `products` (
-  `idproduct` int(11) NOT NULL,
-  `nameProduct` varchar(50) NOT NULL,
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
   `price` int(11) NOT NULL,
-  `descriptionProduct` varchar(200) DEFAULT NULL,
-  `image` varchar(250) DEFAULT NULL,
+  `description` varchar(200) DEFAULT NULL,
   `garanty` int(11) DEFAULT NULL,
-  `QuantityAvailable` int(11) DEFAULT NULL,
-  `shirtType_idShirtType` int(11) NOT NULL,
-  `shirtSize_idShirtSize` int(11) NOT NULL,
-  `shirtColors_idShirtColor` int(11) NOT NULL,
-  `typePrint_idTypePrint` int(11) NOT NULL,
-  `descountSettings_id` int(11) NOT NULL,
-  `category_idCategory` int(11) DEFAULT NULL
+  `quantity` int(11) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `products`
---
-
-INSERT INTO `products` (`idproduct`, `nameProduct`, `price`, `descriptionProduct`, `garanty`, `QuantityAvailable`, `shirtType_idShirtType`, `shirtSize_idShirtSize`, `shirtColors_idShirtColor`, `typePrint_idTypePrint`, `descountSettings_id`, `category_idCategory`) VALUES
-(1, 'Camisa Roblox', 80000, 'camisa con personaje de roblox', 5, 10, 1, 2, 2, 1, 1, 4),
-(2, 'Fiesta Navideña', 32000, 'Estilo navideño y bonitos colores rojos', 3, 20, 2, 1, 3, 4, 2, 4);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `rol`
+-- Estructura de tabla para la tabla `products_categories`
+--
+
+CREATE TABLE `products_categories` (
+  `products_id` int(11) NOT NULL,
+  `categories_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `products_descountsettings`
+--
+
+CREATE TABLE `products_descountsettings` (
+  `products_id` int(11) NOT NULL,
+  `descountsettings_id` int(11) NOT NULL,
+  `descountsettings_descount` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `products_shirtcolors`
+--
+
+CREATE TABLE `products_shirtcolors` (
+  `products_id` int(11) NOT NULL,
+  `shirtcolors_id` int(11) NOT NULL,
+  `image` varchar(200) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `products_shirtsizes`
+--
+
+CREATE TABLE `products_shirtsizes` (
+  `shirtsizes_id` int(11) NOT NULL,
+  `products_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `products_shirttypes`
+--
+
+CREATE TABLE `products_shirttypes` (
+  `products_id` int(11) NOT NULL,
+  `shirttypes_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `roles`
 --
 
 CREATE TABLE `roles` (
-  `idRol` int(11) NOT NULL,
-  `namerol` varchar(20) DEFAULT NULL
+  `id` int(11) NOT NULL,
+  `name` varchar(20) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `rol`
---
-
-INSERT INTO `roles` (`idRol`, `namerol`) VALUES
-(1, 'Administrador'),
-(2, 'Cliente');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `shirtColors`
+-- Estructura de tabla para la tabla `shirtcolors`
 --
 
-CREATE TABLE `shirtColors` (
-  `idShirtColor` int(11) NOT NULL,
-  `color` varchar(45) NOT NULL
+CREATE TABLE `shirtcolors` (
+  `id` int(11) NOT NULL,
+  `name` varchar(45) NOT NULL,
+  `color` varchar(45) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `shirtColors`
---
-
-INSERT INTO `shirtColors` (`idShirtColor`, `color`) VALUES
-(1, 'rojo'),
-(2, 'azul'),
-(3, 'Violeta'),
-(4, 'Verde');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `shirtSize`
+-- Estructura de tabla para la tabla `shirtsizes`
 --
 
-CREATE TABLE `shirtSize` (
-  `idShirtSize` int(11) NOT NULL,
-  `size` varchar(45) NOT NULL
+CREATE TABLE `shirtsizes` (
+  `id` int(11) NOT NULL,
+  `sizes` varchar(45) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `shirtSize`
---
-
-INSERT INTO `shirtSize` (`idShirtSize`, `size`) VALUES
-(1, 'XXL'),
-(2, 'M'),
-(3, 'L'),
-(4, 'S');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `shirtType`
+-- Estructura de tabla para la tabla `shirttypes`
 --
 
-CREATE TABLE `shirtType` (
-  `idShirtType` int(11) NOT NULL,
-  `type` varchar(45) NOT NULL
+CREATE TABLE `shirttypes` (
+  `id` int(11) NOT NULL,
+  `types` varchar(45) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `shirtType`
---
-
-INSERT INTO `shirtType` (`idShirtType`, `type`) VALUES
-(1, 'playera'),
-(2, 'Camisón'),
-(3, 'Blusa'),
-(4, 'Sudadera');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `typepqrs`
+-- Estructura de tabla para la tabla `typespqrs`
 --
 
-CREATE TABLE `typepqrs` (
-  `idTypePqrs` int(11) NOT NULL,
-  `typepqrs` varchar(50) DEFAULT NULL
+CREATE TABLE `typespqrs` (
+  `id` int(11) NOT NULL,
+  `typesPqrs` varchar(50) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `typepqrs`
---
-
-INSERT INTO `typepqrs` (`idTypePqrs`, `typepqrs`) VALUES
-(1, 'Pregunta'),
-(2, 'Queja'),
-(3, 'Reclamo'),
-(4, 'Sugerencia');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `typePrint`
+-- Estructura de tabla para la tabla `typesprint`
 --
 
-CREATE TABLE `typePrint` (
-  `idTypePrint` int(11) NOT NULL,
-  `typePrint` varchar(45) NOT NULL
+CREATE TABLE `typesprint` (
+  `id` int(11) NOT NULL,
+  `typesPrint` varchar(45) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `typePrint`
---
-
-INSERT INTO `typePrint` (`idTypePrint`, `typePrint`) VALUES
-(1, 'prensada'),
-(2, 'forjada'),
-(3, 'Tejida'),
-(4, 'Plasmada');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `UICode`
+-- Estructura de tabla para la tabla `uicode`
 --
 
-CREATE TABLE `UICode` (
-  `idUICode` int(11) NOT NULL,
+CREATE TABLE `uicode` (
+  `id` int(11) NOT NULL,
   `file` varchar(200) NOT NULL,
-  `rol_idRol` int(11) NOT NULL
+  `roles_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `UICode`
---
-
-INSERT INTO `UICode` (`idUICode`, `file`, `rol_idRol`) VALUES
-(1, 'ieunfiuwenwiupc pqeiufndncuiqerbviajdcnerpbapieucnierbvediu', 1),
-(2, 'owijvnpiqeb9upefoifcjeuhntiuerhncifeqhnoifuerhaiofhneldnheiourghfoeihgfnuojdifwrnhuofhnqeipjmqgneonhfmjqpoierhnouaehnfpioqermhiguoehmpiofxherniuocfmjwEOIGCHNOURIEJFOIERHNOUIAEJMPFWNHOFJWIOGNHEWUIFJIPO', 1),
-(3, '2eufehwiuebfiuwbediunweifunwiejwqeoediwejfoiwecweufweiucneiufbeiucnwefi weoifhweoifoejweoifhoweneofhjeofhqwiudh2fhwoenp2efn24ufhe98cnweipfnweu9n4mf34', 1),
-(4, '9uwehf9hec9uhfuenc2e9fh29x82ef89ehdoqefh9e8xj29u2fhweoijwefwe', 2);
 
 -- --------------------------------------------------------
 
@@ -469,12 +415,12 @@ INSERT INTO `UICode` (`idUICode`, `file`, `rol_idRol`) VALUES
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `lastName` varchar(50) COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
-  `birthDate` DATE COLLATE utf8mb4_unicode_ci NULL,
+  `lastName` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `birthDate` date DEFAULT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `phone` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `rol_id` int(11) NOT NULL,
+  `roles_id` int(11) NOT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
@@ -482,71 +428,68 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Volcado de datos para la tabla `users`
---
-
-INSERT INTO `users` (`id`, `name`, `lastName`, `email`, `email_verified_at`, `phone`, `rol_id`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'María del Pilar', 'Sánchez Gómez Ariza', 'mapisago@píng.com', NULL, '301838193', 1, 'secret2', NULL, '2022-11-02 17:34:23', '2022-11-02 17:34:23'),
-(2, 'Fernando', 'Borrero', 'feborrero@ping.com', NULL, '3029392925', 2, 'secret3', NULL, '2022-11-02 17:34:59', '2022-11-02 17:34:59');
-
---
 -- Índices para tablas volcadas
 --
 
 --
--- Indices de la tabla `bill`
+-- Indices de la tabla `aboutus`
+--
+ALTER TABLE `aboutus`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `bills`
 --
 ALTER TABLE `bills`
-  ADD PRIMARY KEY (`idBill`),
-  ADD KEY `paymentMethod_idPaymentMethod` (`paymentMethod_idPaymentMethod`),
-  ADD KEY `users_bill` (`user_id`),
-  ADD KEY `billStates_bill` (`billStates_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `billStates_bills` (`billStates_id`),
+  ADD KEY `paymentMethods_bills` (`paymentMethod_id`),
+  ADD KEY `users_bills` (`users_id`);
 
 --
--- Indices de la tabla `billStates`
+-- Indices de la tabla `billstates`
 --
-ALTER TABLE `billStates`
-  ADD PRIMARY KEY (`idBillStates`);
+ALTER TABLE `billstates`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `category`
+-- Indices de la tabla `categories`
 --
 ALTER TABLE `categories`
-  ADD PRIMARY KEY (`idCategory`);
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `delivery`
+-- Indices de la tabla `deliveries`
 --
 ALTER TABLE `deliveries`
-  ADD PRIMARY KEY (`idDelivery`),
-  ADD KEY `bill_idBill` (`bill_idBill`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `bills_deliveries` (`bills_id`);
 
 --
 -- Indices de la tabla `descountsettings`
 --
-ALTER TABLE `descountSettings`
-  ADD PRIMARY KEY (`idDescountSettings`,`descount`);
+ALTER TABLE `descountsettings`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `dimensionPrint`
+-- Indices de la tabla `dimensionprint`
 --
-ALTER TABLE `dimensionPrint`
-  ADD PRIMARY KEY (`idDimensionPrint`);
+ALTER TABLE `dimensionprint`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `managementpqrs`
 --
 ALTER TABLE `managementpqrs`
-  ADD PRIMARY KEY (`idmanagementPqrs`),
-  ADD KEY `user_iduser` (`user_iduser`),
-  ADD KEY `typePqrs_idTypePqrs` (`typePqrs_idTypePqrs`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `typesPqrs_magagementPqrs` (`typesPqrs_id`),
+  ADD KEY `users_managementPqrs` (`users_id`);
 
 --
 -- Indices de la tabla `migrations`
@@ -555,144 +498,164 @@ ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `ordersBase`
+-- Indices de la tabla `ordersbase`
 --
-ALTER TABLE `ordersBase`
-  ADD PRIMARY KEY (`idOrder`),
-  ADD KEY `bill_idBill` (`bill_idBill`),
-  ADD KEY `dimensionPrint_idDimensionPrint` (`dimensionPrint_idDimensionPrint`),
-  ADD KEY `product_idProduct` (`product_idProduct`);
+ALTER TABLE `ordersbase`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `bills_ordersBase` (`bills_id`),
+  ADD KEY `dimensionPrint_ordersBase` (`dimensionPrint_id`),
+  ADD KEY `products_ordersBase` (`products_id`);
 
 --
--- Indices de la tabla `password_resets`
+-- Indices de la tabla `paymentmethods`
 --
-ALTER TABLE `password_resets`
-  ADD KEY `password_resets_email_index` (`email`);
-
---
--- Indices de la tabla `paymentmethod`
---
-ALTER TABLE `paymentMethods`
-  ADD PRIMARY KEY (`idPaymentMethod`);
+ALTER TABLE `paymentmethods`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
-  ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `productCalification`
+-- Indices de la tabla `productcalification`
 --
-ALTER TABLE `productCalification`
-  ADD PRIMARY KEY (`idProductCalification`),
-  ADD KEY `user_iduser` (`user_iduser`),
-  ADD KEY `product_idproduct` (`product_idproduct`);
+ALTER TABLE `productcalification`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `products_productCalification` (`products_id`),
+  ADD KEY `users_productCalification` (`users_id`);
 
 --
 -- Indices de la tabla `products`
 --
 ALTER TABLE `products`
-  ADD PRIMARY KEY (`idproduct`),
-  ADD KEY `shirtType_idShirtType` (`shirtType_idShirtType`),
-  ADD KEY `shirtSize_idShirtSize` (`shirtSize_idShirtSize`),
-  ADD KEY `shirtColors_idShirtColor` (`shirtColors_idShirtColor`),
-  ADD KEY `typePrint_idTypePrint` (`typePrint_idTypePrint`),
-  ADD KEY `descountSettings_products` (`descountSettings_id`),
-  ADD KEY `category_products` (`category_idCategory`);
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `rol`
+-- Indices de la tabla `products_categories`
+--
+ALTER TABLE `products_categories`
+  ADD PRIMARY KEY (`products_id`,`categories_id`),
+  ADD KEY `fk_products_has_categories_categories1` (`categories_id`);
+
+--
+-- Indices de la tabla `products_descountsettings`
+--
+ALTER TABLE `products_descountsettings`
+  ADD PRIMARY KEY (`products_id`,`descountsettings_id`),
+  ADD KEY `fk_products_has_descountsettings_descountsettings1` (`descountsettings_id`);
+
+--
+-- Indices de la tabla `products_shirtcolors`
+--
+ALTER TABLE `products_shirtcolors`
+  ADD PRIMARY KEY (`products_id`,`shirtcolors_id`),
+  ADD KEY `fk_products_has_shirtcolors_shirtcolors1` (`shirtcolors_id`);
+
+--
+-- Indices de la tabla `products_shirtsizes`
+--
+ALTER TABLE `products_shirtsizes`
+  ADD PRIMARY KEY (`shirtsizes_id`,`products_id`),
+  ADD KEY `fk_shirtsizes_products_products1` (`products_id`);
+
+--
+-- Indices de la tabla `products_shirttypes`
+--
+ALTER TABLE `products_shirttypes`
+  ADD PRIMARY KEY (`products_id`,`shirttypes_id`),
+  ADD KEY `fk_products_has_shirttypes_shirttypes1` (`shirttypes_id`);
+
+--
+-- Indices de la tabla `roles`
 --
 ALTER TABLE `roles`
-  ADD PRIMARY KEY (`idRol`);
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `shirtColors`
+-- Indices de la tabla `shirtcolors`
 --
-ALTER TABLE `shirtColors`
-  ADD PRIMARY KEY (`idShirtColor`);
+ALTER TABLE `shirtcolors`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `shirtSize`
+-- Indices de la tabla `shirtsizes`
 --
-ALTER TABLE `shirtSize`
-  ADD PRIMARY KEY (`idShirtSize`);
+ALTER TABLE `shirtsizes`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `shirtType`
+-- Indices de la tabla `shirttypes`
 --
-ALTER TABLE `shirtType`
-  ADD PRIMARY KEY (`idShirtType`);
+ALTER TABLE `shirttypes`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `typepqrs`
+-- Indices de la tabla `typespqrs`
 --
-ALTER TABLE `typepqrs`
-  ADD PRIMARY KEY (`idTypePqrs`);
+ALTER TABLE `typespqrs`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `typePrint`
+-- Indices de la tabla `typesprint`
 --
-ALTER TABLE `typePrint`
-  ADD PRIMARY KEY (`idTypePrint`);
+ALTER TABLE `typesprint`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `UICode`
+-- Indices de la tabla `uicode`
 --
-ALTER TABLE `UICode`
-  ADD PRIMARY KEY (`idUICode`),
-  ADD KEY `rol_idRol` (`rol_idRol`);
+ALTER TABLE `uicode`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `rol_UICode` (`roles_id`);
 
 --
 -- Indices de la tabla `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `users_email_unique` (`email`),
-  ADD KEY `rol_users` (`rol_id`);
+  ADD KEY `roles_users` (`roles_id`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
--- AUTO_INCREMENT de la tabla `bill`
+-- AUTO_INCREMENT de la tabla `bills`
 --
 ALTER TABLE `bills`
-  MODIFY `idBill` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `billStates`
+-- AUTO_INCREMENT de la tabla `billstates`
 --
-ALTER TABLE `billStates`
-  MODIFY `idBillStates` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `billstates`
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `category`
+-- AUTO_INCREMENT de la tabla `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `idCategory` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `delivery`
+-- AUTO_INCREMENT de la tabla `deliveries`
 --
 ALTER TABLE `deliveries`
-  MODIFY `idDelivery` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `descountsettings`
 --
-ALTER TABLE `descountSettings`
-  MODIFY `idDescountSettings` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `descountsettings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `dimensionPrint`
+-- AUTO_INCREMENT de la tabla `dimensionprint`
 --
-ALTER TABLE `dimensionPrint`
-  MODIFY `idDimensionPrint` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `dimensionprint`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `failed_jobs`
@@ -704,19 +667,19 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT de la tabla `managementpqrs`
 --
 ALTER TABLE `managementpqrs`
-  MODIFY `idmanagementPqrs` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `ordersBase`
+-- AUTO_INCREMENT de la tabla `ordersbase`
 --
-ALTER TABLE `ordersBase`
-  MODIFY `idOrder` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `ordersbase`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `personal_access_tokens`
@@ -728,100 +691,124 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT de la tabla `products`
 --
 ALTER TABLE `products`
-  MODIFY `idproduct` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `shirtColors`
+-- AUTO_INCREMENT de la tabla `shirtcolors`
 --
-ALTER TABLE `shirtColors`
-  MODIFY `idShirtColor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `shirtcolors`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `shirtSize`
+-- AUTO_INCREMENT de la tabla `shirtsizes`
 --
-ALTER TABLE `shirtSize`
-  MODIFY `idShirtSize` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `shirtsizes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `shirtType`
+-- AUTO_INCREMENT de la tabla `shirttypes`
 --
-ALTER TABLE `shirtType`
-  MODIFY `idShirtType` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `shirttypes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `typePrint`
+-- AUTO_INCREMENT de la tabla `typesprint`
 --
-ALTER TABLE `typePrint`
-  MODIFY `idTypePrint` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `typesprint`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
 --
 
 --
--- Filtros para la tabla `bill`
+-- Filtros para la tabla `bills`
 --
 ALTER TABLE `bills`
-  ADD CONSTRAINT `billStates_bill` FOREIGN KEY (`billStates_id`) REFERENCES `billStates` (`idBillStates`),
-  ADD CONSTRAINT `paymentMethod_bill` FOREIGN KEY (`paymentMethod_idPaymentMethod`) REFERENCES `paymentMethods` (`idPaymentMethod`),
-  ADD CONSTRAINT `users_bill` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `billStates_bills` FOREIGN KEY (`billStates_id`) REFERENCES `billstates` (`id`),
+  ADD CONSTRAINT `paymentMethods_bills` FOREIGN KEY (`paymentMethod_id`) REFERENCES `paymentmethods` (`id`),
+  ADD CONSTRAINT `users_bills` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`);
 
 --
--- Filtros para la tabla `delivery`
+-- Filtros para la tabla `deliveries`
 --
 ALTER TABLE `deliveries`
-  ADD CONSTRAINT `bill_delivery` FOREIGN KEY (`bill_idBill`) REFERENCES `bills` (`idBill`);
+  ADD CONSTRAINT `bills_deliveries` FOREIGN KEY (`bills_id`) REFERENCES `bills` (`id`);
 
 --
 -- Filtros para la tabla `managementpqrs`
 --
 ALTER TABLE `managementpqrs`
-  ADD CONSTRAINT `typepqrs_magagementpqrs` FOREIGN KEY (`typePqrs_idTypePqrs`) REFERENCES `typepqrs` (`idTypePqrs`),
-  ADD CONSTRAINT `users_managementpqrs` FOREIGN KEY (`user_iduser`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `typesPqrs_magagementPqrs` FOREIGN KEY (`typesPqrs_id`) REFERENCES `typespqrs` (`id`),
+  ADD CONSTRAINT `users_managementPqrs` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`);
 
 --
--- Filtros para la tabla `ordersBase`
+-- Filtros para la tabla `ordersbase`
 --
-ALTER TABLE `ordersBase`
-  ADD CONSTRAINT `bill_ordersBase` FOREIGN KEY (`bill_idBill`) REFERENCES `bills` (`idBill`),
-  ADD CONSTRAINT `dimensionPrint_ordersBase` FOREIGN KEY (`dimensionPrint_idDimensionPrint`) REFERENCES `dimensionPrint` (`idDimensionPrint`),
-  ADD CONSTRAINT `product_ordersBase` FOREIGN KEY (`product_idProduct`) REFERENCES `products` (`idproduct`);
+ALTER TABLE `ordersbase`
+  ADD CONSTRAINT `bills_ordersBase` FOREIGN KEY (`bills_id`) REFERENCES `bills` (`id`),
+  ADD CONSTRAINT `dimensionPrint_ordersBase` FOREIGN KEY (`dimensionPrint_id`) REFERENCES `dimensionprint` (`id`),
+  ADD CONSTRAINT `products_ordersBase` FOREIGN KEY (`products_id`) REFERENCES `products` (`id`);
 
 --
--- Filtros para la tabla `productCalification`
+-- Filtros para la tabla `productcalification`
 --
-ALTER TABLE `productCalification`
-  ADD CONSTRAINT `products_productCalification` FOREIGN KEY (`product_idproduct`) REFERENCES `products` (`idproduct`),
-  ADD CONSTRAINT `users_productCalification` FOREIGN KEY (`user_iduser`) REFERENCES `users` (`id`);
+ALTER TABLE `productcalification`
+  ADD CONSTRAINT `products_productCalification` FOREIGN KEY (`products_id`) REFERENCES `products` (`id`),
+  ADD CONSTRAINT `users_productCalification` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`);
 
 --
--- Filtros para la tabla `products`
+-- Filtros para la tabla `products_categories`
 --
-ALTER TABLE `products`
-  ADD CONSTRAINT `shirtColors_products` FOREIGN KEY (`shirtColors_idShirtColor`) REFERENCES `shirtColors` (`idShirtColor`),
-  ADD CONSTRAINT `shirtSize_products` FOREIGN KEY (`shirtSize_idShirtSize`) REFERENCES `shirtSize` (`idShirtSize`),
-  ADD CONSTRAINT `shirtType_products` FOREIGN KEY (`shirtType_idShirtType`) REFERENCES `shirtType` (`idShirtType`),
-  ADD CONSTRAINT `typePrint_products` FOREIGN KEY (`typePrint_idTypePrint`) REFERENCES `typePrint` (`idTypePrint`),
-  ADD CONSTRAINT `category_products` FOREIGN KEY (`category_idCategory`) REFERENCES `categories` (`idCategory`),
-  ADD CONSTRAINT `descountSettings_products` FOREIGN KEY (`descountSettings_id`) REFERENCES `descountSettings` (`idDescountSettings`);
+ALTER TABLE `products_categories`
+  ADD CONSTRAINT `fk_products_has_categories_categories1` FOREIGN KEY (`categories_id`) REFERENCES `categories` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_products_has_categories_products1` FOREIGN KEY (`products_id`) REFERENCES `products` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Filtros para la tabla `UICode`
+-- Filtros para la tabla `products_descountsettings`
 --
-ALTER TABLE `UICode`
-  ADD CONSTRAINT `rol_UICode` FOREIGN KEY (`rol_idRol`) REFERENCES `roles` (`idRol`);
+ALTER TABLE `products_descountsettings`
+  ADD CONSTRAINT `fk_products_has_descountsettings_descountsettings1` FOREIGN KEY (`descountsettings_id`) REFERENCES `descountsettings` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_products_has_descountsettings_products1` FOREIGN KEY (`products_id`) REFERENCES `products` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `products_shirtcolors`
+--
+ALTER TABLE `products_shirtcolors`
+  ADD CONSTRAINT `fk_products_has_shirtcolors_products1` FOREIGN KEY (`products_id`) REFERENCES `products` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_products_has_shirtcolors_shirtcolors1` FOREIGN KEY (`shirtcolors_id`) REFERENCES `shirtcolors` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `products_shirtsizes`
+--
+ALTER TABLE `products_shirtsizes`
+  ADD CONSTRAINT `fk_shirtsizes_products_products1` FOREIGN KEY (`products_id`) REFERENCES `products` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_shirtsizes_products_shirtsizes1` FOREIGN KEY (`shirtsizes_id`) REFERENCES `shirtsizes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `products_shirttypes`
+--
+ALTER TABLE `products_shirttypes`
+  ADD CONSTRAINT `fk_products_has_shirttypes_products1` FOREIGN KEY (`products_id`) REFERENCES `products` (`id`),
+  ADD CONSTRAINT `fk_products_has_shirttypes_shirttypes1` FOREIGN KEY (`shirttypes_id`) REFERENCES `shirttypes` (`id`);
+
+--
+-- Filtros para la tabla `uicode`
+--
+ALTER TABLE `uicode`
+  ADD CONSTRAINT `rol_UICode` FOREIGN KEY (`roles_id`) REFERENCES `roles` (`id`);
 
 --
 -- Filtros para la tabla `users`
 --
 ALTER TABLE `users`
-  ADD CONSTRAINT `rol_users` FOREIGN KEY (`rol_id`) REFERENCES `roles` (`idRol`);
+  ADD CONSTRAINT `roles_users` FOREIGN KEY (`roles_id`) REFERENCES `roles` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
