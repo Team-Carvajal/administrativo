@@ -14,12 +14,14 @@
                                 <i class="material-icons opacity-10">weekend</i>
                             </div>
                            
+                            @isset($salesController)
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize">Ventas del dia</p>
-                                <h4 class="mb-0">$</h4>
+                                <h4 class="mb-0">${$salesPerDay}</h4>
                             </div>
                             
                         
+                            @endisset
                         </div>
                         <hr class="dark horizontal my-0">
                         <div class="card-footer p-3">

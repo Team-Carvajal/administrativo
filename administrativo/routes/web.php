@@ -31,6 +31,7 @@ use App\Http\Controllers;
 Route::get('/', function () {return redirect('sign-in');})->middleware('guest');
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
 // Route::post('/dashboard', [SalesController::class, 'SalesController'])->middleware('auth')->name('dashboard');
+Route::post('/dashboard', [SalesController::class, 'SalesController'])->middleware('auth')->name('dashboard');
 Route::get('sign-up', [RegisterController::class, 'create'])->middleware('guest')->name('register');
 Route::post('sign-up', [RegisterController::class, 'store'])->middleware('guest');
 Route::get('sign-in', [SessionsController::class, 'create'])->middleware('guest')->name('login');
